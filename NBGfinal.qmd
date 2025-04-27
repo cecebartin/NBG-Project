@@ -4,8 +4,6 @@ format: html
 editor: visual
 ---
 
-# NBG Work:
-
 ## 
 
 ```{r, echo = FALSE}
