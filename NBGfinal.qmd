@@ -1,0 +1,592 @@
+---
+title: "NBG work"
+format: html
+editor: visual
+---
+
+# NBG Work:
+
+## 
+
+```{r, echo = FALSE}
+
+# import libraries and organize testing data
+
+
+library(googlesheets4)
+library(tidyverse)
+library(glue)
+library(wesanderson)
+library(dplyr)
+
+
+gs4_auth(email = "cecilia_bartin@brown.edu")
+
+testing_data <- read_sheet("https://docs.google.com/spreadsheets/d/1a4z-Qf3OIGpiKUXLp-PlKE1XKCANEuoXNzisACWrM5M/edit?usp=sharing")
+
+p <- wes_palette("Darjeeling1", 5, type = c("discrete", "continuous"))
+p2 <- wes_palette("Darjeeling2", 5, type = c("discrete", "continuous"))
+p3 <- wes_palette("Moonrise3", 5, type = c("discrete", "continuous"))
+
+
+# breakdown compid, get rid of duplicate stone_numbers
+
+organized_data <- testing_data |>
+  mutate(
+    section = str_sub(compid, 1, 2), 
+    stone_number = str_sub(compid, 3, 7), 
+    type = str_sub(compid, 9, 9), 
+    individual = str_sub(compid, 11, 12)
+    
+  )  |> distinct(section, stone_number, .keep_all = TRUE)
+
+clean_empty <- function(df) {
+  df[df == ""] <- NA
+  df
+}
+
+
+organized_data <- clean_empty(organized_data)
+
+
+
+
+
+
+```
+
+## Graves Types
+
+```{r, echo = FALSE}
+
+#### GET TOTALS ####
+
+table1 <- organized_data |>
+    count(section, type, sort = TRUE) |> arrange(section)
+
+total <- sum(table1$n)
+
+f_total <- table1 |>
+  filter(type == "f")
+f_total <- sum(f_total$n)
+
+m_total <- table1 |>
+  filter(type == "m")
+m_total <- sum(m_total$n)
+
+t_total <- table1 |>
+  filter(type == "t")
+t_total <- sum(t_total$n)
+
+
+#### GET VALUES SECTION AA ####
+
+AA <- table1 |>
+    filter(section == "AA") 
+total_AA <- sum(AA$n)
+
+foot_AA <- AA |>  # num footstones
+  filter(type == "f")
+foot_AA <- sum(foot_AA$n)
+
+tomb_AA <- AA |>  # num tombs
+  filter(type == "t")
+tomb_AA <- sum(tomb_AA$n)
+
+mon_AA <- AA |>   # num monuments
+  filter(type == "m")
+mon_AA <- sum(mon_AA$n)
+
+#### GET VALUES SECTION AB ####
+
+AB <- table1 |>
+    filter(section == "AB") 
+total_AB <- sum(AB$n)
+
+foot_AB <- AB |>  # num footstones
+  filter(type == "f")
+foot_AB <- sum(foot_AB$n)
+
+tomb_AB <- AB |>  # num tombs
+  filter(type == "t")
+tomb_AB <- sum(tomb_AB$n)
+
+mon_AB <- AB |>   # num monuments
+  filter(type == "m")
+mon_AB <- sum(mon_AB$n)
+
+#### GET VALUES SECTION AC ####
+
+AC <- table1 |>
+    filter(section == "AC") 
+total_AC <- sum(AB$n)
+
+foot_AC <- AC |>  # num footstones
+  filter(type == "f")
+foot_AC <- sum(foot_AC$n)
+
+tomb_AC <- AC |>  # num tombs
+  filter(type == "t")
+tomb_AC <- sum(tomb_AC$n)
+
+mon_AC <- AC |>   # num monuments
+  filter(type == "m")
+mon_AC <- sum(mon_AC$n)
+
+
+description_glue <- glue("As of {Sys.Date()}, there are {total} graves: {f_total} footstones, {t_total} tombs, and {m_total} monuments.
+
+Section AA contains {total_AA} graves: {foot_AA} footstones, {tomb_AA} tombstones, and {mon_AA} monuments. 
+Section AB contains {total_AB} graves: {foot_AB} footstones, {tomb_AB} tombstones, and {mon_AB} monuments.
+Section AC contains {total_AC} graves: {foot_AC} footstones, {tomb_AC} tombstones, and {mon_AC} monuments.")
+
+print(description_glue)
+
+
+#### SET UP PLOTS #####
+
+type_labels <- c(
+  `f` = "f: Footstone",
+  `t` = "t: Tombstone",
+  `m` = "m: Monument"
+   ) 
+
+type_values <- c(
+  "f" = p[1], "t" = p[2], "m" = p[3]
+)
+
+
+#### GRAVE TYPES: BY SECTION ####
+ggplot(
+  data = organized_data,
+  mapping = aes(x = type)
+  ) + geom_bar(mapping = aes(fill = type)) + facet_wrap(~section) +
+  labs(
+    title = "Grave Types Across Sections",
+    y = "Number of Type",
+    x = "Grave Type", 
+    caption = "data from NBG Project",
+    fill = "Grave Types") + 
+  scale_fill_manual(
+    labels = type_labels,
+    values = type_values
+  ) 
+
+#### GRAPH: OVERALL #####
+ggplot(
+  data = organized_data,
+  mapping = aes(x = type)
+  ) + geom_bar(mapping = aes(fill = type)) +
+  labs(
+    title = "Grave Types Overall",
+    y = "Number of Type",
+    x = "Grave Type", 
+    caption = "data from NBG Project",
+    fill = "Grave Types") + 
+  scale_fill_manual(
+    labels = type_labels,
+    values = type_values
+  ) 
+
+ 
+```
+
+## Materials Used
+
+```{r, echo = FALSE}
+
+
+# DESCENDING ORDER #
+organized_data <- organized_data |>
+  mutate(material = factor(material, 
+                          levels = names(sort(table(material), decreasing = TRUE))))
+
+
+# create table with counts
+table2 <- organized_data |>
+    count(section, material, sort = TRUE) |>
+    arrange(section)
+
+material_values <- c(
+  "marble" = p[1], "slate" = p[2], "granite" = p[3], "brownstone" = p[4], 
+  "concrete, brick, slate, earth, concrete" = p[5], "concrete, combination, brick, slate,      concrete" = p2[1]
+)
+
+#### SUMMARY ####
+
+# Calculate overall material totals (all sections)
+total_materials <- sum(table2$n, na.rm = TRUE)
+
+# Get all unique materials from organized_data
+all_materials <- unique(organized_data$material)
+
+# Calculate totals for each material across all sections
+material_totals <- sapply(all_materials, function(mat) {
+  sum(table2$n[table2$material == mat], na.rm = TRUE)
+}) |> setNames(all_materials)
+
+# Section breakdowns
+get_section_materials <- function(section_code) {
+  sect <- table2 |> filter(section == section_code)
+  section_totals <- sapply(all_materials, function(mat) {
+    sum(sect$n[sect$material == mat], na.rm = TRUE)
+  }) |> setNames(all_materials)
+  
+  list(
+    total = sum(sect$n, na.rm = TRUE),
+    materials = section_totals
+  )
+}
+
+AA_mat <- get_section_materials("AA")
+AB_mat <- get_section_materials("AB")
+AC_mat <- get_section_materials("AC")
+
+# Create materials summary
+materials_glue <- glue(
+  "As of {Sys.Date()}, there are {total_materials} recorded materials: ",
+  "{paste(names(material_totals), ' (', material_totals, ')', collapse = ', ', sep = '')}.\n\n",
+  "Section AA contains {AA_mat$total} materials: ",
+  "{paste(names(AA_mat$materials), ' (', AA_mat$materials, ')', collapse = ', ', sep = '')}.\n",
+  "Section AB contains {AB_mat$total} materials: ",
+  "{paste(names(AB_mat$materials), ' (', AB_mat$materials, ')', collapse = ', ', sep = '')}.\n",
+  "Section AC contains {AC_mat$total} materials: ",
+  "{paste(names(AC_mat$materials), ' (', AC_mat$materials, ')', collapse = ', ', sep = '')}."
+)
+
+cat(materials_glue)
+
+#### MATERIALS: BY SECTION ####
+
+ggplot(
+  data = organized_data,
+  mapping = aes(x = material)
+  ) + geom_bar(mapping = aes(fill = material)) + facet_wrap(~section) +
+  labs(
+    title = "Materials Used Across Sections",
+    y = "Number of Material Type",
+    x = "Material", 
+    caption = "data from NBG Project" ) +
+    scale_fill_manual(
+      values = material_values
+    ) +
+   
+   theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+    geom_text(
+    stat = "count", 
+    aes(label = after_stat(count)), 
+    vjust = -0.3
+    )
+
+
+
+#### MATERIALS: WHOLE GRAVEYARD ####
+
+ggplot(
+  data = organized_data,
+  mapping = aes(x = material)
+  ) + geom_bar(mapping = aes(fill = material)) +
+  labs(
+    title = "Materials Used Overall",
+    y = "Number of Material Type",
+    x = "Material", 
+    caption = "data from NBG Project",
+    fill = "Material Types") +
+  scale_fill_manual(
+      values = material_values
+    ) +
+   theme(axis.text.x = element_text(angle = 45, hjust=1)) +
+    geom_text(
+    stat = "count", 
+    aes(label = after_stat(count)), 
+    vjust = -0.3
+    )
+
+
+```
+
+## Lunnette Types
+
+```{r, echo = FALSE}
+
+
+
+#### LUN TYPES: BY SECTION ####
+
+# get lunnette code number
+num_lun_types <- organized_data |>
+    separate_wider_delim (
+      lunette_description,
+      delim = "_",
+      names = c("lun_code_num"),
+      too_few = "align_start", 
+      too_many = "drop"
+  ) 
+
+# create bar graph
+ggplot(
+  data = num_lun_types,
+  mapping = aes(x = lun_code_num)
+  ) + geom_bar(mapping = aes(fill = lun_code_num)) + facet_wrap(~section) +
+  
+  scale_fill_manual(
+    values = wes_palette(
+      name = "Zissou1",
+      n = n_distinct(num_lun_types$lun_code_num),
+      type = "continuous"
+    )
+  ) + 
+  labs(
+    title = "Lunette Types Across Sections",
+    y = "Number of Lunnette Type",
+    x = "Lunnette Code Number", 
+    caption = "data from NBG Project" ) + 
+    geom_text(
+    stat = "count", 
+    aes(label = after_stat(count)), 
+    vjust = -0.3
+    )
+
+# create table with counts
+table3 <- num_lun_types |>
+    count(section, lun_code_num, sort = TRUE) |>
+    arrange(section)
+
+
+#### LUN TYPES: OVERALL ####
+
+ggplot(num_lun_types, aes(x = lun_code_num, fill = lun_code_num)) +
+  geom_bar() +
+  scale_fill_manual(
+    values = wes_palette(
+      name = "Zissou1",
+      n = n_distinct(num_lun_types$lun_code_num),
+      type = "continuous"
+    )
+  ) +
+  labs(
+    title = "Lunette Types Across Sections",
+    y = "Number of Lunnette Type",
+    x = "Lunnette Code Number", 
+    caption = "data from NBG Project" ) + 
+  theme_minimal()
+
+```
+
+```         
+```
+
+## Headstone Types By Section
+
+```{r, echo = FALSE}
+library(glue)
+
+#### ORGANIZE ####
+num_headstone_types <- organized_data |>
+    separate_wider_delim (
+      headstone_type,
+      delim = "_",
+      names = c("headstone_code_num"),
+      too_few = "align_start", 
+      too_many = "drop"
+  ) 
+
+
+num_headstone_types <- num_headstone_types |>
+  mutate(headstone_code_num = factor(headstone_code_num, 
+                          levels = names(sort(table(headstone_code_num), decreasing = TRUE))))
+
+#### DATA SUMMARIES ####
+
+#create table with counts 
+table4 <- num_headstone_types |>
+    count(section, headstone_code_num, sort = TRUE) |>
+    arrange(section) 
+
+total_allSections <- sum(table4$n)
+total_unique <- n_distinct(table4$headstone_code_num)
+
+sectionA_data <- table4 |>  
+  filter(section == "AA")
+
+num_graves_AA <- nrow(sectionA_data)
+
+total_AA <- sum(sectionA_data$n)
+
+sectionB_data <- table4 |>
+  filter(section == "AB")
+
+num_graves_AB <- nrow(sectionB_data)
+
+total_AB <- sum(sectionB_data$n)
+
+sectionC_data <- table4 |>
+  filter(section == "AC")
+
+num_graves_AC <- nrow(sectionC_data)
+
+total_AC <- sum(sectionC_data$n)
+
+description_glue <- glue("As of {Sys.Date()}, there are {total_allSections} graves and {total_unique} unique headstone types.
+
+Section AA contains {total_AA} graves and {num_graves_AA} unique headstone types. 
+Section AB contains {total_AB} graves and {num_graves_AB} unique headstone types,
+Section AC contains {total_AC} graves and {num_graves_AC} unique headstone types.
+                         " )
+
+print(description_glue)
+
+
+#### CREATING PLOTS ####
+
+headstone_labels <- c(
+  `5` = "5: Round top ogee shoulders",
+  `16` = "16: Square top",
+  `2` = "2: Rounded top, rounded shoulder",
+  `6` = "6: Arch top",
+  `25` = "25: Peon top",
+  `10` = "10: Half round",
+  `3` = "3: Oval top with checked rounded shoulders", 
+  `35` = "35: Crested corners", 
+  `99` = "99: Unknown",
+  `24` = "24: Peon top with splay sides",
+  `32` = "32: Fancy shoulders",
+  `7`= "7: Oval with shoulders"
+   ) 
+
+headstone_values <- c(
+  "5" = p[1], "16" = p[2], "2" = p[3], "6" = p[4], 
+  "25" = p[5], "10" = p2[1], "3" = p2[2], "35" = p2[3], 
+  "99" = p2[4], "24" = p3[1], "32" = "lightgreen", "7" = p3[2] #### FIXX!!! ####
+)
+
+headstone_labels <- case_when(
+  as.character(num_headstone_types$headstone_code_num) %in% names(headstone_labels) ~ headstone_labels[as.character(num_headstone_types$headstone_code_num)], 
+  TRUE ~ as.character(num_headstone_types$headstone_code_num)
+  )
+
+## HEADSTONE TYPES: BY SECTION ##
+ggplot(
+  data = num_headstone_types,
+  mapping = aes(x = headstone_code_num, sort = TRUE)
+  ) + geom_bar(mapping = aes(fill = headstone_code_num)) + facet_wrap(~section) +
+  labs(
+    title = "Headstone Types Across Sections",
+    y = "Number of Headstone Type",
+    x = "Headstone Code Number", 
+    caption = "data from NBG Project",
+    fill = "Headstone Types") +
+  
+    guides(fill = guide_legend(reverse = TRUE)) +  # reverse legend order
+    scale_fill_manual(
+    values = headstone_values, 
+    labels = headstone_labels)  + coord_flip() +
+    geom_text(
+    stat = "count", 
+    aes(label = after_stat(count)), 
+    hjust = -0.3
+    )
+
+
+## HEADSTONE TYPES: WHOLE GRAVEYARD ##
+ggplot(
+  data = num_headstone_types,
+  mapping = aes(x = headstone_code_num, sort = TRUE)
+  ) + geom_bar(mapping = aes(fill = headstone_code_num)) +
+  labs(
+    title = "Headstone Types Overall",
+    y = "Number of Headstone Type",
+    x = "Headstone Code Number", 
+    caption = "data from NBG Project",
+    fill = "Headstone Types") +
+    guides(fill = guide_legend(reverse=TRUE)) +
+  
+    scale_fill_manual(
+    values = headstone_values, 
+    labels = headstone_labels
+    ) +
+    geom_text(
+    stat = "count", 
+    aes(label = after_stat(count)), 
+    hjust = -0.3
+    ) +
+  coord_flip() 
+```
+
+## Condition of Marble Stones by Section
+
+```{r, echo = FALSE}
+
+#filter for only marble stones, get headstone condition number
+marble_condition <- organized_data |>
+  filter(material == "marble") |>
+  tidyr::separate_wider_delim(
+      headstone_condition,
+      delim = "_",
+      names = c("marble_cond_num"), 
+      too_few = "align_start", 
+      too_many = "drop"
+  )
+
+table5 <- marble_condition |>
+    dplyr::count(section, marble_cond_num, sort = TRUE) |>
+    dplyr::arrange(section)
+
+section_cond <- table5 |>
+  dplyr::group_by(section) |>
+  dplyr::summarize(
+    total = sum(n, na.rm = TRUE),
+    most_common = dplyr::first(marble_cond_num, order_by = desc(n))
+  )
+
+#### SUMMARY ####
+
+marble_glue <- glue(
+  "As of {Sys.Date()}, 
+  
+Section AA contains {section_cond$total[section_cond$section == 'AA']} marble stones, most commonly in condition {section_cond$most_common[section_cond$section == 'AA']}.
+Section AB contains {section_cond$total[section_cond$section == 'AB']} marble stones, most commonly in condition {section_cond$most_common[section_cond$section == 'AB']}.
+Section AC contains {section_cond$total[section_cond$section == 'AC']} marble stones, most commonly in condition {section_cond$most_common[section_cond$section == 'AC']}."
+)
+
+cat(marble_glue)
+
+
+
+# create bar graph
+  ggplot(
+  data = marble_condition,
+  mapping = aes(x = marble_cond_num)
+  ) + geom_bar(mapping = aes(fill = marble_cond_num)) + facet_wrap(~section) +
+  labs(
+    title = "Marble Condition Across Sections",
+    y = "Number Marble in Condition",
+    x = "Condition Code Number", 
+    caption = "data from NBG Project" ) +
+  scale_fill_manual(values = wes_palette("Darjeeling1", n_distinct(marble_condition$marble_cond_num)))  
+
+# create table with counts
+table5 <- marble_condition |>
+    count(section, marble_cond_num, sort = TRUE) |>
+    arrange(section)
+
+# Overall Marble Condition Plot
+ggplot(marble_condition, aes(x = marble_cond_num, fill = marble_cond_num)) +
+  geom_bar() +
+  labs(
+    title = "Marble Condition Overall",
+    y = "Count",
+    x = "Condition Code",
+    caption = "data from NBG Project"
+  ) +
+  scale_fill_manual(values = wes_palette("Darjeeling1", n_distinct(marble_condition$marble_cond_num))) +
+  geom_text(
+    stat = "count",
+    aes(label = after_stat(count)),
+    vjust = -0.3
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+
+```
