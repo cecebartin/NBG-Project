@@ -2,43 +2,43 @@
   {
     "objectID": "NBGfinal.html",
     "href": "NBGfinal.html",
-    "title": "NBG work",
+    "title": "NBG Project",
     "section": "",
-    "text": "── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\nAuto-refreshing stale OAuth token.\n\n✔ Reading from \"test_data\".\n\n✔ Range 'Sheet1'.\n\n\n\n\n\n\n\nAs of 2025-04-27, there are 67 graves: 3 footstones, 60 tombs, and 4 monuments.\n\nSection AA contains 20 graves: 2 footstones, 14 tombstones, and 4 monuments. \nSection AB contains 25 graves: 1 footstones, 24 tombstones, and 0 monuments.\nSection AC contains 25 graves: 0 footstones, 22 tombstones, and 0 monuments.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAs of 2025-04-27, there are 67 recorded materials: concrete, combination, brick, slate, concrete (1), granite (2), marble (37), slate (19), brownstone (1), concrete, brick, slate, earth, concrete (1), NA (0).\n\nSection AA contains 20 materials: concrete, combination, brick, slate, concrete (1), granite (1), marble (9), slate (6), brownstone (1), concrete, brick, slate, earth, concrete (1), NA (0).\nSection AB contains 25 materials: concrete, combination, brick, slate, concrete (0), granite (1), marble (17), slate (5), brownstone (0), concrete, brick, slate, earth, concrete (0), NA (0).\nSection AC contains 22 materials: concrete, combination, brick, slate, concrete (0), granite (0), marble (11), slate (8), brownstone (0), concrete, brick, slate, earth, concrete (0), NA (0).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAs of 2025-04-27, there are 67 graves and 13 unique headstone types.\n\nSection AA contains 20 graves and 9 unique headstone types. \nSection AB contains 25 graves and 9 unique headstone types,\nSection AC contains 22 graves and 6 unique headstone types.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAs of 2025-04-27, \n  \nSection AA contains 9 marble stones, most commonly in condition 1.\nSection AB contains 17 marble stones, most commonly in condition 1.\nSection AC contains 11 marble stones, most commonly in condition 1."
-  },
-  {
-    "objectID": "NBGfinal.html#section",
-    "href": "NBGfinal.html#section",
-    "title": "NBG work",
-    "section": "",
-    "text": "── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\nAuto-refreshing stale OAuth token.\n\n✔ Reading from \"test_data\".\n\n✔ Range 'Sheet1'."
+    "text": "── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.1.4     ✔ readr     2.1.5\n✔ forcats   1.0.0     ✔ stringr   1.5.1\n✔ ggplot2   3.5.1     ✔ tibble    3.2.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.1\n✔ purrr     1.0.2     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors\n✔ Reading from \"test_data\".\n\n✔ Range 'Sheet1'."
   },
   {
     "objectID": "NBGfinal.html#graves-types",
     "href": "NBGfinal.html#graves-types",
-    "title": "NBG work",
-    "section": "",
-    "text": "As of 2025-04-27, there are 67 graves: 3 footstones, 60 tombs, and 4 monuments.\n\nSection AA contains 20 graves: 2 footstones, 14 tombstones, and 4 monuments. \nSection AB contains 25 graves: 1 footstones, 24 tombstones, and 0 monuments.\nSection AC contains 25 graves: 0 footstones, 22 tombstones, and 0 monuments."
+    "title": "NBG Project",
+    "section": "Graves Types",
+    "text": "Graves Types\n\n\nAs of 2025-04-27, there are 67 graves: 3 footstones, 60 tombs, and 4 monuments.\n\nSection AA contains 20 graves: 2 footstones, 14 tombstones, and 4 monuments. \nSection AB contains 25 graves: 1 footstones, 24 tombstones, and 0 monuments.\nSection AC contains 25 graves: 0 footstones, 22 tombstones, and 0 monuments."
   },
   {
     "objectID": "NBGfinal.html#materials-used",
     "href": "NBGfinal.html#materials-used",
-    "title": "NBG work",
-    "section": "",
-    "text": "As of 2025-04-27, there are 67 recorded materials: concrete, combination, brick, slate, concrete (1), granite (2), marble (37), slate (19), brownstone (1), concrete, brick, slate, earth, concrete (1), NA (0).\n\nSection AA contains 20 materials: concrete, combination, brick, slate, concrete (1), granite (1), marble (9), slate (6), brownstone (1), concrete, brick, slate, earth, concrete (1), NA (0).\nSection AB contains 25 materials: concrete, combination, brick, slate, concrete (0), granite (1), marble (17), slate (5), brownstone (0), concrete, brick, slate, earth, concrete (0), NA (0).\nSection AC contains 22 materials: concrete, combination, brick, slate, concrete (0), granite (0), marble (11), slate (8), brownstone (0), concrete, brick, slate, earth, concrete (0), NA (0)."
+    "title": "NBG Project",
+    "section": "Materials Used",
+    "text": "Materials Used\n\n\nAs of 2025-04-27, there are 67 recorded materials: concrete, combination, brick, slate, concrete (1), granite (2), marble (37), slate (19), brownstone (1), concrete, brick, slate, earth, concrete (1), NA (0).\n\nSection AA contains 20 materials: concrete, combination, brick, slate, concrete (1), granite (1), marble (9), slate (6), brownstone (1), concrete, brick, slate, earth, concrete (1), NA (0).\nSection AB contains 25 materials: concrete, combination, brick, slate, concrete (0), granite (1), marble (17), slate (5), brownstone (0), concrete, brick, slate, earth, concrete (0), NA (0).\nSection AC contains 22 materials: concrete, combination, brick, slate, concrete (0), granite (0), marble (11), slate (8), brownstone (0), concrete, brick, slate, earth, concrete (0), NA (0)."
+  },
+  {
+    "objectID": "NBGfinal.html#lunnette-types",
+    "href": "NBGfinal.html#lunnette-types",
+    "title": "NBG Project",
+    "section": "Lunnette Types",
+    "text": "Lunnette Types"
   },
   {
     "objectID": "NBGfinal.html#headstone-types-by-section",
     "href": "NBGfinal.html#headstone-types-by-section",
-    "title": "NBG work",
-    "section": "",
-    "text": "As of 2025-04-27, there are 67 graves and 13 unique headstone types.\n\nSection AA contains 20 graves and 9 unique headstone types. \nSection AB contains 25 graves and 9 unique headstone types,\nSection AC contains 22 graves and 6 unique headstone types."
+    "title": "NBG Project",
+    "section": "Headstone Types By Section",
+    "text": "Headstone Types By Section\n\n\nAs of 2025-04-27, there are 67 graves and 13 unique headstone types.\n\nSection AA contains 20 graves and 9 unique headstone types. \nSection AB contains 25 graves and 9 unique headstone types,\nSection AC contains 22 graves and 6 unique headstone types."
   },
   {
     "objectID": "NBGfinal.html#condition-of-marble-stones-by-section",
     "href": "NBGfinal.html#condition-of-marble-stones-by-section",
-    "title": "NBG work",
-    "section": "",
-    "text": "As of 2025-04-27, \n  \nSection AA contains 9 marble stones, most commonly in condition 1.\nSection AB contains 17 marble stones, most commonly in condition 1.\nSection AC contains 11 marble stones, most commonly in condition 1."
+    "title": "NBG Project",
+    "section": "Condition of Marble Stones by Section",
+    "text": "Condition of Marble Stones by Section\n\n\nAs of 2025-04-27, \n  \nSection AA contains 9 marble stones, most commonly in condition 1.\nSection AB contains 17 marble stones, most commonly in condition 1.\nSection AC contains 11 marble stones, most commonly in condition 1."
   }
 ]
