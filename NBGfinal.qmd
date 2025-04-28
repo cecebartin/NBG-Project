@@ -1,5 +1,8 @@
 ---
-format: html
+title: "NBG work"
+format: 
+  html:
+    css: styles.css
 editor: visual
 ---
 
@@ -359,8 +362,7 @@ ggplot(num_lun_types, aes(x = lun_code_num, fill = lun_code_num)) +
     title = "Lunette Types Across Sections",
     y = "Number of Lunnette Type",
     x = "Lunnette Code Number", 
-    caption = "data from NBG Project" ) + 
-  theme_minimal()
+    caption = "data from NBG Project" ) 
 
 ```
 
@@ -576,7 +578,6 @@ ggplot(marble_condition, aes(x = marble_cond_num, fill = marble_cond_num)) +
     aes(label = after_stat(count)),
     vjust = -0.3
   ) +
-  theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
