@@ -1,5 +1,5 @@
 ---
-title: "NBG work"
+title: "NBG Data"
 format: 
   html:
     css: styles.css
